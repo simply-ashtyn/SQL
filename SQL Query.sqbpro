@@ -5,7 +5,7 @@ Created on: May 23, 2025
 Description: Basic SQL elements practice
 */
 
-</sql><sql name="SQL 2*">/*
+</sql><sql name="SQL 2">/*
 Date: May 23, 2025
 Ch 4: Composing Queries
 */
@@ -62,7 +62,7 @@ FROM
 ORDER BY
 	FirstName ASC,
 	LastName DESC
-LIMIT 10;</sql><sql name="SQL 3*">/*
+LIMIT 10;</sql><sql name="SQL 3">/*
 Date: May 25, 2025
 Ch 5: Discovering Insights in Data
 */
@@ -289,7 +289,7 @@ SELECT
 FROM
     Track AS [t]
 ORDER BY
-    UnitPrice;</sql><sql name="SQL 4*">/*
+    UnitPrice;</sql><sql name="SQL 4">/*
 Date: May 26, 2025
 Ch 6: Accessing Data from Multiple Tables
 */
@@ -401,4 +401,133 @@ ON
 ORDER BY
     e.LASTNAME,
     c.LASTNAME
-LIMIT 12;</sql><current_tab id="3"/></tab_sql></sqlb_project>
+LIMIT 12;</sql><sql name="SQL 5*">/*
+Date: May 26, 2025
+Ch 7: SQL Functions
+*/
+
+-- Concatenation
+
+SELECT
+	FirstName,
+	LastName,
+	Address,
+	FirstName || ' ' || LastName
+FROM
+	Customer
+WHERE
+	Country = 'USA';
+	
+-- Create a mailing list of US customers
+
+SELECT
+	FirstName,
+	LastName,
+	Address,
+	FirstName || ' ' || LastName || ' ' || Address || ', ' || City || ' ' || State || ' ' || PostalCode AS [Mailing Address]
+FROM
+	Customer
+WHERE
+	Country = 'USA';
+	
+-- Truncate
+
+SELECT
+	FirstName,
+	LastName,
+	Address,
+	FirstName || ' ' || LastName || ' ' || Address || ', ' || City || ' ' || State || ' ' || PostalCode AS [Mailing Address],
+	length (PostalCode),
+	substr(PostalCode, 1,5) AS [5 Digit Postal Code]
+FROM
+	Customer
+WHERE
+	Country = 'USA';
+	
+-- CHANGE TEXT TO ALL CAPS
+
+SELECT
+	FirstName,
+	LastName,
+	upper(FirstName) AS [First ALL CAPS],
+	upper(LastName) AS [Last ALL CAPS]
+FROM
+	Customer
+LIMIT 10;
+
+-- change text to all lower case
+
+SELECT
+	FirstName,
+	LastName,
+	lower(FirstName) AS [first all lower],
+	lower(LastName) AS [last all lower]
+FROM
+	Customer
+LIMIT 10;
+
+-- Date functions | Calculate the ages of all employees
+
+SELECT
+	LastName,
+	FirstName,
+	BirthDate,
+	strftime('%Y-%m-%d', BirthDate) AS [Birthdate no timecode],
+	-- strftime date formate is case sensitive, function removes timestamp from date
+	strftime('%Y-%m-%d','now') - strftime('%Y-%m-%d', BirthDate) AS Age
+	-- 'now' returns the current date/time from the computer
+FROM
+	Employee;
+	
+-- Aggregate functions: Turn a range of numbers into a single point of data | What are our all time global sales?
+
+SELECT
+	sum(total) AS Sales
+FROM
+	Invoice;
+	
+-- Average sales
+
+SELECT
+	avg(total) AS [Average Sales]
+FROM
+	Invoice;
+	
+-- Max sale
+
+SELECT
+	max(total) AS [Maximum Sale]
+FROM
+	Invoice;
+	
+-- Minimum sale
+
+SELECT
+	min(total) AS [Minimum Sale]
+FROM
+	Invoice;
+	
+-- Count sales
+
+SELECT
+	count(*) AS [Total Sales]
+FROM
+	Invoice;
+	
+-- Nesting functions
+
+SELECT
+	round(avg(total),2) AS [Average Sales]
+FROM
+	Invoice;
+	
+-- CODING CHALLENGE
+
+SELECT
+    c.FirstName || ' ' || c.LastName AS CustomerFullName,
+    substr(c.POSTALCODE, 1, 5) AS StandardizedPostalCode
+FROM Customer AS c
+Where
+    c.COUNTRY = 'USA'
+ORDER BY
+    CustomerFullName;</sql><current_tab id="4"/></tab_sql></sqlb_project>
