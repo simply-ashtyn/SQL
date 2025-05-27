@@ -401,7 +401,7 @@ ON
 ORDER BY
     e.LASTNAME,
     c.LASTNAME
-LIMIT 12;</sql><sql name="SQL 5*">/*
+LIMIT 12;</sql><sql name="SQL 5">/*
 Date: May 26, 2025
 Ch 7: SQL Functions
 */
@@ -530,4 +530,78 @@ FROM Customer AS c
 Where
     c.COUNTRY = 'USA'
 ORDER BY
-    CustomerFullName;</sql><current_tab id="4"/></tab_sql></sqlb_project>
+    CustomerFullName;</sql><sql name="SQL 6*">/*
+Date: May 26, 2025
+Ch 8: Grouping
+*/
+
+-- What are the average invoice totals by city?
+
+SELECT
+	BillingCity,
+	avg(total) AS AverageTotal
+FROM
+	Invoice
+GROUP BY
+	BillingCity;
+	
+-- What are the average invoice totals by city for only the cities that start with L?
+
+SELECT
+	BillingCity,
+	round(avg(total),2) AS AverageTotal
+FROM
+	Invoice
+WHERE
+	BillingCity like 'L%'
+GROUP BY
+	BillingCity;
+	
+-- Grouping using the HAVING clause | What are the average invoice totals that are greater than $5.00?
+
+SELECT
+	BillingCity,
+	round(avg(total),2) AS AverageTotal
+FROM
+	Invoice
+GROUP BY
+	BillingCity
+HAVING
+	avg(total) &gt; 5.00;
+	
+-- Gouping using HAVING and WHERE | What are the average invoice totals greater than $5 for cities starting with B?
+
+SELECT
+	BillingCity,
+	round(avg(total),2) AS AverageTotal
+FROM
+	Invoice
+WHERE
+	BillingCity like 'B%'
+GROUP BY
+	BillingCity
+HAVING
+	avg(total) &gt; 5.00;
+	
+-- Grouping by many fields | What are the average invoice totals by billing country and city?
+
+SELECT
+	BillingCity,
+	BillingCountry,
+	round(avg(total),2) AS AverageTotal
+FROM
+	Invoice
+GROUP BY
+	BillingCountry, BillingCity
+HAVING
+	avg(total) &gt; 5.00;
+	
+-- CODING CHALLENGE
+
+SELECT
+    i.BILLINGCITY AS City,
+    round(avg(i.TOTAL),2) AS AverageSpending
+FROM 
+	Invoice AS i
+GROUP BY
+    i.BILLINGCITY;</sql><current_tab id="5"/></tab_sql></sqlb_project>
